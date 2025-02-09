@@ -1,6 +1,6 @@
-import {keepPreviousData, useQuery, UseQueryResult} from '@tanstack/react-query'
+import { keepPreviousData, useQuery, UseQueryResult } from '@tanstack/react-query'
 
-import {PhotosResponse} from "./types.ts";
+import { PhotosResponse } from './types.ts';
 
 const API_URL = 'https://api.pexels.com/v1'
 const API_KEY = import.meta.env.VITE_PEXELS_API_KEY

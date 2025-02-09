@@ -13,7 +13,7 @@ import tseslint from 'typescript-eslint'
 export default tseslint.config(
   {
     ignores: ['dist', 'node_modules'],
-    files: ['**/*.{ts,tsx}'],
+    files: ['**/*.{js,jsx,ts,tsx}'],
     languageOptions: {
       parser: tsparser,
       ecmaVersion: 2020,
@@ -21,6 +21,7 @@ export default tseslint.config(
     },
   },
   {
+    files: ['**/*.{js,jsx,ts,tsx}'],
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
     plugins: {
       'react-hooks': reactHooks,
@@ -35,6 +36,12 @@ export default tseslint.config(
     },
   },
   {
+    files: ['**/*.{js,jsx,ts,tsx}'],
+    languageOptions: {
+      parser: tsparser,
+      ecmaVersion: 2020,
+      globals: globals.browser,
+    },
     plugins: {
       '@stylistic/js': stylisticJs,
       '@stylistic/ts': stylisticTs,
@@ -44,14 +51,15 @@ export default tseslint.config(
       'indent': ['error', 2, { SwitchCase: 1 }],
       '@stylistic/ts/indent': ['error', 2, { SwitchCase: 1 }],
       '@stylistic/js/indent': ['error', 2, { SwitchCase: 1 }],
-      quotes: [
-        'error',
-        'single',
-        {
-          avoidEscape: true, allowTemplateLiterals: true
-        },
-      ],
+      '@stylistic/js/quotes': ['error', 'single', {
+        avoidEscape: true, allowTemplateLiterals: true
+      }],
+      '@stylistic/ts/quotes': ['error', 'single', {
+        avoidEscape: true, allowTemplateLiterals: true
+      }],
       '@stylistic/js/object-curly-spacing': ['error', 'always'],
+      '@stylistic/ts/object-curly-spacing': ['error', 'always'],
+      '@stylistic/jsx/jsx-curly-spacing': [2,{ 'when': 'never', 'children': true }],
       '@stylistic/jsx/jsx-props-no-multi-spaces': ['error'],
       '@stylistic/jsx/jsx-function-call-newline': ['error', 'always'],
       '@stylistic/jsx/jsx-closing-bracket-location': ['error', 'line-aligned'],
@@ -107,5 +115,4 @@ export default tseslint.config(
       ],
     }
   },
-  eslintConfigPrettier
 )
