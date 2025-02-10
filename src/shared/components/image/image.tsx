@@ -1,7 +1,10 @@
 import { css } from '@emotion/react';
-import { useState, useEffect, useRef, memo } from 'react';
+import { motion } from 'motion/react';
+import {
+  useState, useEffect, useRef, memo, useCallback 
+} from 'react';
 
-import type { PhotoResource } from '../../types'
+import type { PhotoResource } from '../../api'
 
 import { ImageSkeleton } from './skeleton.tsx';
 
@@ -16,7 +19,7 @@ interface ImageProps {
   onError?: () => void;
 }
 
-const Image = memo(function Image({
+const Image = memo(({
   photo,
   priority = false,
   sizes = '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw',
@@ -25,39 +28,50 @@ const Image = memo(function Image({
   fallbackSrc,
   onLoad,
   onError,
-}: ImageProps) {
+}: ImageProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const imageRef = useRef<HTMLImageElement>(null);
+  
+  const handleLoad = useCallback(() => {
+    setIsLoading(false);
+    onLoad?.();
+  }, [onLoad]);
+
+  const handleError = useCallback(() => {
+    setIsError(true);
+    setIsLoading(false);
+    onError?.();
+  }, [onError]);
 
   useEffect(() => {
     const img = imageRef.current;
 
-    if (img && img.complete) {
-      setIsLoading(false);
+    if (img) {
+      if (img.complete) {
+        handleLoad();
+      } else {
+        img.addEventListener('load', handleLoad);
+        img.addEventListener('error', handleError);
+      }
     }
-  }, []);
 
-  const handleLoad = () => {
-    setIsLoading(false);
-    onLoad?.();
-  };
+    return () => {
+      img?.removeEventListener('load', handleLoad);
+      img?.removeEventListener('error', handleError);
+    };
+  }, [handleError, handleLoad, photo.src]);
 
-  const handleError = () => {
-    setIsError(true);
-    setIsLoading(false);
-    onError?.();
-  };
+  const srcSet = [
+    `${photo.src.small} 300w`,
+    `${photo.src.medium} 768w`,
+    `${photo.src.large} 1024w`,
+    photo.src.large2x ? `${photo.src.large2x} 2048w` : ''
+  ].filter(Boolean).join(', ');
 
-  const calculatedAspectRatio = aspectRatio ?? (photo.height / photo.width);
-
-  const srcSet = `
-    ${photo.src.small} 300w,
-    ${photo.src.medium} 768w,
-    ${photo.src.large} 1024w,
-    ${photo.src.large2x} 2048w
-  `;
-
+  const calculatedAspectRatio = aspectRatio ??
+    (photo.width && photo.height ? (photo.height / photo.width) : 1);
+  const finalSrc = isError ? (fallbackSrc || photo.src.small) : photo.src.medium;
   const styles = getStyles();
 
   return (
@@ -84,17 +98,23 @@ const Image = memo(function Image({
           type="image/jpeg"
         />
 
-        <img
+        <motion.img
           alt={photo.alt}
+          animate={{ opacity: 1 }}
           css={styles.image}
           height={photo.height}
+          initial={{ opacity: 0 }}
           loading={priority ? 'eager' : loading}
           onError={handleError}
           onLoad={handleLoad}
           ref={imageRef}
           sizes={sizes}
-          src={isError ? (fallbackSrc ?? photo.src.small) : photo.src.medium}
+          src={finalSrc}
           srcSet={srcSet}
+          transition={{
+            duration: 0.2,
+            scale: { type: 'spring', visualDuration: 0.2, bounce: 0.3 },
+          }}
           width={photo.width}
         />
       </picture>
