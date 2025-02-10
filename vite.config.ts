@@ -1,4 +1,5 @@
 import react from '@vitejs/plugin-react'
+import path from 'path';
 import { defineConfig } from 'vite'
 
 // https://vite.dev/config/
@@ -6,11 +7,14 @@ export default defineConfig({
   plugins: [
     react({
       jsxImportSource: '@emotion/react',
-      babel: {
-        plugins: [
-          ["babel-plugin-react-compiler", {}],
-        ],
-      },
     })
   ],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+      'shared': path.resolve(__dirname, './src/shared'),
+      'modules': path.resolve(__dirname, './src/modules'),
+      'public': path.resolve(__dirname, './public'),
+    },
+  },
 })

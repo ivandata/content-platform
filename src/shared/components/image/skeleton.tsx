@@ -15,6 +15,7 @@ const ImageSkeleton = ({ aspectRatio = 1 }: ImageSkeletonProps) => {
     <div
       aria-hidden="true"
       css={styles.container}
+      data-testId={'image-skeleton'}
       role="presentation"
       style={{ aspectRatio }}
     >

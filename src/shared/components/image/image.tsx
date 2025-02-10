@@ -6,7 +6,7 @@ import {
 
 import type { PhotoResource } from '../../api'
 
-import { ImageSkeleton } from './skeleton.tsx';
+import { ImageSkeleton } from './skeleton';
 
 interface ImageProps {
   photo: PhotoResource;

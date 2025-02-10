@@ -15,14 +15,27 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "jsxImportSource": "@emotion/react",
-    "types": ["@emotion/react/types/css-prop", "vite/client"],
+    "types": [
+      "@emotion/react/types/css-prop",
+      "vite/client",
+      "vitest/globals"
+    ],
 
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+
+    /* Path alias */
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "shared/*": ["./src/shared/*"],
+      "modules/*": ["./src/modules/*"],
+      "public/*": ["./public/*"]
+    }
   },
   "include": ["src"]
 }

@@ -1,5 +1,15 @@
 {
   "files": [],
+  "compilerOptions": {
+    "types": ["vite/client"],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "shared/*": ["./src/shared/*"],
+      "modules/*": ["./src/modules/*"],
+      "public/*": ["./public/*"]
+    }
+  },
   "references": [
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
