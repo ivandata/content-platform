@@ -1,7 +1,6 @@
 import type { PhotoResource } from 'shared/api';
 
 import { css } from '@emotion/react';
-import { Fragment } from 'react';
 import TargetBlankIcon  from 'shared/components/icons/open-outline.svg?react'
 import { getContrastingColor } from 'shared/helpers/get-contrasting-color.ts';
 
@@ -9,33 +8,29 @@ export const PhotoInfo = (photo: PhotoResource) => {
   const styles = getStyles(getContrastingColor(photo.avg_color));
 
   return (
-    <Fragment>      
-      {photo.alt && <h1 css={styles.title}>{photo.alt}</h1>}
-
-      <div css={styles.metadata}>
-        <div css={styles.metaItem}>
-          <a
-            css={styles.author}
-            href={photo.photographer_url}
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            <span>{photo.photographer}</span>
-            <TargetBlankIcon />
-          </a>
-        </div>
-
-        <div css={styles.metaItem} data-testid="dimensions">
-          <span>
-            {photo.width}
-            {' '}
-            × 
-            {' '}
-            {photo.height}
-          </span>
-        </div>
+    <div css={styles.metadata}>
+      <div css={styles.metaItem}>
+        <a
+          css={styles.author}
+          href={photo.photographer_url}
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          <span>{photo.photographer}</span>
+          <TargetBlankIcon />
+        </a>
       </div>
-    </Fragment>
+
+      <div css={styles.metaItem} data-testid="dimensions">
+        <span>
+          {photo.width}
+          {' '}
+          × 
+          {' '}
+          {photo.height}
+        </span>
+      </div>
+    </div>
   );
 };
 
