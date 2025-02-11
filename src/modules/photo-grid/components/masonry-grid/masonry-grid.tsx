@@ -48,7 +48,7 @@ const MasonryGrid = ({
       if (!parentRef.current) return;
 
       const { scrollTop, scrollHeight, clientHeight } = parentRef.current;
-      if (scrollHeight - scrollTop <= clientHeight * 1.5) {
+      if (scrollHeight - scrollTop <= clientHeight * 2) {
         loadMore();
       }
     };
@@ -69,7 +69,7 @@ const MasonryGrid = ({
 
   const virtualItems = getVirtualItems();
   const totalSize = getTotalSize() - columnGap;
-  const styles = getStyles(columnGap);
+  const styles = useMemo(() => getStyles(columnGap), [columnGap]);
 
   return (
     <div aria-label="Photo gallery" css={styles.container} ref={parentRef} role="list">
@@ -92,7 +92,7 @@ const MasonryGrid = ({
             }}
           >
             {columns[virtualColumn.index]?.map((photo) => (
-              <MasonryItem columnWidth={columnWidth} key={photo.id} photo={photo} />
+              <MasonryItem key={photo.id} photo={photo} />
             ))}
           </div>
         ))}

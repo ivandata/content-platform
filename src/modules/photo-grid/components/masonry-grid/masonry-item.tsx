@@ -2,19 +2,19 @@ import type { PhotoResource } from 'shared/api';
 
 import { css } from '@emotion/react';
 import { motion } from 'motion/react';
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import ForwardIcon from 'shared/components/icons/arrow-forward-outline.svg?react';
-import { Image } from 'shared/components/image';
 import { getContrastingColor } from 'shared/helpers/get-contrasting-color';
+
+import { MasonryImage } from './masonry-image';
 
 interface MasonryItemProps {
   photo: PhotoResource;
-  columnWidth: number;
 }
 
-export const MasonryItem = memo(({ photo, columnWidth }: MasonryItemProps) => {
-  const styles = getStyles()
+export const MasonryItem = memo(({ photo }: MasonryItemProps) => {
+  const styles = useMemo(() => getStyles(), []);
 
   return (
     <motion.div
@@ -25,32 +25,36 @@ export const MasonryItem = memo(({ photo, columnWidth }: MasonryItemProps) => {
         scale: { type: 'spring', visualDuration: 0.2, bounce: 0.3 },
       }}
     >
-      <Link
-        aria-label={`View photo details: ${photo.alt}`}
-        css={styles.link}
-        role="link"
-        tabIndex={0}
-        to={`/photos/${photo.id}`}
-      >
-        <motion.div
-          className="label"
-          css={styles.label(getContrastingColor(photo.avg_color))}
+      {photo.photographer_id ?
+        <Link
+          aria-label={`View photo details: ${photo.alt}`}
+          css={styles.link}
+          tabIndex={0}
+          to={`/photos/${photo.id}`}
         >
-          <span>Photo details</span>
-
-          <motion.span
-            css={styles.icon}
+          <motion.div
+            className="label"
+            css={styles.label(getContrastingColor(photo.avg_color))}
           >
-            <ForwardIcon />
-          </motion.span>
-        </motion.div>
+            <span>Photo details</span>
 
-        <Image
+            <motion.span
+              css={styles.icon}
+            >
+              <ForwardIcon />
+            </motion.span>
+          </motion.div>
+
+          <MasonryImage
+            aspectRatio={photo.height / photo.width}
+            photo={photo}
+          />
+        </Link>
+        : <MasonryImage
           aspectRatio={photo.height / photo.width}
           photo={photo}
-          sizes={`${columnWidth}px`}
         />
-      </Link>
+      }
     </motion.div>
   );
 });

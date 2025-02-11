@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
-import { useMemo } from 'react';
-import { useInfiniteCuratedPhotos } from 'shared/api';
+import { useCallback, useMemo } from 'react';
+import { useInfiniteCuratedPhotos, generateSkeletonPhotos } from 'shared/api';
 
 import { MasonryGrid } from './components/masonry-grid';
 
@@ -15,36 +15,38 @@ function PhotoGallery() {
     isFetchingNextPage,
     fetchNextPage,
     hasNextPage,
-  } = useInfiniteCuratedPhotos(100);
+  } = useInfiniteCuratedPhotos(50);
 
-  const allPhotos = useMemo(() => {
-    return data ? data.pages.flatMap(page => page.photos) : []
-  }, [data]);
-
-  const handleLoadMore = async () => {
+  const handleLoadMore = useCallback(async () => {
     if (hasNextPage && !isFetchingNextPage) {
       await fetchNextPage();
     }
-  };
+  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
+
+  const photos = useMemo(() => {
+    if (isPending) {
+      return generateSkeletonPhotos(50);
+    }
+
+    return data ? data.pages.flatMap(page => page.photos) : [];
+  }, [data, isPending]);
 
   const columnGap = 16
-  const styles = getStyles(columnGap);
+  const styles = useMemo(() => getStyles(columnGap), [columnGap]);
 
   return (
     <div css={styles.container}>
-      {isPending && <div css={styles.loading}>Loading...</div>}
-
       {isError && <div css={styles.error}>
         Error:
         {error.message}
       </div>}
 
-      {isSuccess && <MasonryGrid
+      <MasonryGrid
         columnGap={columnGap}
         columnWidth={300}
         loadMore={hasNextPage ? handleLoadMore : undefined}
-        photos={allPhotos}
-      />}
+        photos={photos}
+      />
 
 
       {isFetching && !isFetchingNextPage && isSuccess && (

@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import { generatePhotoResource } from 'shared/api';
+import { generatePhotoResource, generateEmptyPhotoResource } from 'shared/api';
 import { describe, it, expect, vi } from 'vitest';
 
 import { MasonryItem } from '../masonry-item';
@@ -17,13 +17,11 @@ vi.mock('shared/components/icons/arrow-forward-outline.svg?react', () => ({
   default: () => <svg data-testid="forward-icon" />
 }));
 
-vi.mock('shared/components/image', () => ({
-  Image: ({ photo, aspectRatio, sizes }: any) => (
+vi.mock('../masonry-image', () => ({
+  MasonryImage: ({ photo }: any) => (
     <img
       alt={photo.alt}
-      data-aspect-ratio={aspectRatio}
-      data-sizes={sizes}
-      src={photo.src}
+      src={photo.src.medium}
     />
   )
 }));
@@ -34,7 +32,6 @@ vi.mock('shared/helpers/get-contrasting-color', () => ({
 
 describe('MasonryItem', () => {
   const mockedPhoto = generatePhotoResource();
-  const mockColumnWidth = 300;
 
   const renderWithRouter = (component: React.ReactNode) => {
     return render(
@@ -46,22 +43,31 @@ describe('MasonryItem', () => {
 
   it('renders link with correct attributes', () => {
     renderWithRouter(
-      <MasonryItem columnWidth={mockColumnWidth} photo={mockedPhoto} />
+      <MasonryItem photo={mockedPhoto} />
     );
 
     const link = screen.getByRole('link');
 
     expect(link?.getAttribute('href')).toBe(`/photos/${mockedPhoto.id}`);
     expect(link?.getAttribute('aria-label')).toBe(`View photo details: ${mockedPhoto.alt}`);
-    expect(link?.getAttribute('role')).toBe('link');
     expect(link?.getAttribute('tabindex')).toBe('0');
   });
 
   it('renders Image component with correct props', () => {
     renderWithRouter(
-      <MasonryItem columnWidth={mockColumnWidth} photo={mockedPhoto} />
+      <MasonryItem photo={mockedPhoto} />
     );
 
     expect(screen.getByRole('img')).toBeTruthy()
+  });
+
+  it('does not render a link when photographer_id is missing', () => {
+    const photoWithoutPhotographer = generateEmptyPhotoResource();
+
+    renderWithRouter(
+      <MasonryItem photo={photoWithoutPhotographer} />
+    );
+
+    expect(screen.queryByRole('link')).toBeFalsy();
   });
 })
