@@ -1,11 +1,10 @@
 import { css } from '@emotion/react';
-import { useMemo, useRef } from 'react';
+import { useMemo } from 'react';
 import { useInfiniteCuratedPhotos } from 'shared/api';
 
 import { MasonryGrid } from './components/masonry-grid';
-function PhotoGallery() {
-  const parentRef = useRef<HTMLDivElement>(null);
 
+function PhotoGallery() {
   const {
     data,
     isSuccess,
@@ -32,7 +31,7 @@ function PhotoGallery() {
   const styles = getStyles(columnGap);
 
   return (
-    <div css={styles.container} ref={parentRef}>
+    <div css={styles.container}>
       {isPending && <div css={styles.loading}>Loading...</div>}
 
       {isError && <div css={styles.error}>
@@ -63,7 +62,6 @@ const getStyles = (gap: number) => ({
     height: 100vh;
     overflow: auto;
     -webkit-overflow-scrolling: touch;
-    background-color: #f5f5f5;
     padding: ${gap}px;
   `,
   loading: css`

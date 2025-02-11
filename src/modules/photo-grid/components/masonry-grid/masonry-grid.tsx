@@ -2,11 +2,10 @@ import type { PhotoResource } from 'shared/api';
 
 import { css } from '@emotion/react';
 import { useVirtualizer } from '@tanstack/react-virtual';
-import { motion } from 'motion/react';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Image } from 'shared/components/image';
 
 import { buildMasonryColumns } from './build-masonry-columns';
+import { MasonryItem } from './masonry-item';
 
 export interface MasonryGridProps {
   photos: PhotoResource[];
@@ -73,7 +72,7 @@ const MasonryGrid = ({
   const styles = getStyles(columnGap);
 
   return (
-    <div css={styles.container} ref={parentRef} role="list">
+    <div aria-label="Photo gallery" css={styles.container} ref={parentRef} role="list">
       <div
         css={styles.innerContainer}
         style={{
@@ -83,29 +82,17 @@ const MasonryGrid = ({
       >
         {virtualItems.map((virtualColumn) => (
           <div
+            aria-label={`Column ${virtualColumn.index + 1}`}
             css={styles.column}
             key={virtualColumn.index}
+            role="group"
             style={{
               left: virtualColumn.start,
               width: columnWidth - columnGap,
             }}
           >
             {columns[virtualColumn.index]?.map((photo) => (
-              <motion.div
-                animate={{ opacity: 1, scale: 1 }}
-                initial={{ opacity: 0, scale: 0 }}
-                key={photo.id}
-                transition={{
-                  duration: 0.2,
-                  scale: { type: 'spring', visualDuration: 0.2, bounce: 0.3 },
-                }}
-              >
-                <Image
-                  aspectRatio={photo.height / photo.width}
-                  photo={photo}
-                  sizes={`${columnWidth}px`}
-                />
-              </motion.div>
+              <MasonryItem columnWidth={columnWidth} key={photo.id} photo={photo} />
             ))}
           </div>
         ))}
@@ -143,6 +130,49 @@ const getStyles = (columnGap: number) => ({
     overflow: hidden;
     background: white;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  `,
+  link: css`
+    display: block;
+    text-decoration: none;
+    position: relative;
+    
+    &:focus-visible {
+      outline: 3px solid #0066cc;
+      outline-offset: 2px;
+      border-radius: 10px;
+    }
+
+    &:focus:not(:focus-visible) {
+      outline: none;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0);
+      transition: background-color 0.2s ease;
+      border-radius: 10px;
+    }
+
+    &:hover::after {
+      background: rgba(0, 0, 0, 0.1);
+    }
+    
+    &:hover .icon {
+      opacity: 1;
+    }
+  `,
+  icon: (color: string) => css`
+    color: ${color}; 
+    height: 24px; 
+    width: 24px; 
+    display: inline-block; 
+    position: absolute; 
+    bottom: 8px;
+    right: 8px;
+    z-index: 100;
+    opacity: 0;
   `
 });
 
