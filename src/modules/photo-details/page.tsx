@@ -1,18 +1,22 @@
 import { css } from '@emotion/react';
+import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
-import { usePhotoDetails } from 'shared/api/api.ts';
+import { usePhotoDetails, generateEmptyPhotoResource } from 'shared/api';
 
 import { PhotoView } from './components/photo-view';
 
 function PhotoDetailsPage () {
   const { photoId } = useParams<{ photoId: string }>();
-  const { data: photo, error, isPending, isError, isSuccess } = usePhotoDetails(photoId!);
+  const { data: photoDetails, error, isPending, isError, isSuccess } = usePhotoDetails(photoId!);
 
+  const styles = useMemo(() => getStyles(), []);
+  const photo = useMemo(() => {
+    return isPending ? generateEmptyPhotoResource() : photoDetails
+  }, [photoDetails, isPending])
 
-  const styles = getStyles();
+  if (!photo) return null
+
   return <div css={styles.container}>
-    {isPending && <div css={styles.loading}>Loading...</div>}
-
     {isError && <div css={styles.error}>
       Error:
       {error.message}

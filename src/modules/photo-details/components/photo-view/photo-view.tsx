@@ -2,23 +2,24 @@ import type { PhotoResource } from 'shared/api';
 
 import { css } from '@emotion/react';
 import { motion } from 'motion/react';
+import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import ArrowBackLink from 'shared/components/icons/arrow-back-outline.svg?react'
-import { Image } from 'shared/components/image';
+import TargetBlankIcon  from 'shared/components/icons/open-outline.svg?react'
 
-import { PhotoInfo } from './photo-info';
+import { PhotoImage } from './photo-image';
 
 export interface PhotoDetailProps {
   photo: PhotoResource;
 }
 
 export const PhotoView = ({ photo }: PhotoDetailProps) => {
-  const styles = getStyles();
   const canGoBack = window.history.length > 1
+  const styles = useMemo(() => getStyles(), []);
 
   return (
     <motion.article
-      css={styles.container}
+      css={styles.article}
       layout
       transition={{
         type: 'spring',
@@ -34,13 +35,30 @@ export const PhotoView = ({ photo }: PhotoDetailProps) => {
           </Link>
         }
 
-        <h1>{photo.alt}</h1>
+        <h1>
+          <i>{photo.alt}</i>
+          {' '}
+
+          <span css={styles.photographer}>
+            {photo.alt ? 'by' : 'Photographer:'}
+            {' '}
+
+            <a
+              css={styles.author}
+              href={photo.photographer_url}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <span>{photo.photographer}</span>
+              <TargetBlankIcon />
+            </a>
+          </span>
+        </h1>
       </header>
 
       <figure css={styles.figure}>
         <div css={styles.image}>
-          <Image
-            aspectRatio={2}
+          <PhotoImage
             loading="eager"
             photo={photo}
             priority={true}
@@ -48,7 +66,15 @@ export const PhotoView = ({ photo }: PhotoDetailProps) => {
         </div>
 
         <figcaption css={styles.figcaption}>
-          <PhotoInfo {...photo} />
+          <div css={styles.metadata} data-testid="dimensions">
+            <span>
+              {photo.width}
+              {' '}
+              ×
+              {' '}
+              {photo.height}
+            </span>
+          </div>
         </figcaption>
       </figure>
     </motion.article>
@@ -56,24 +82,31 @@ export const PhotoView = ({ photo }: PhotoDetailProps) => {
 };
 
 const getStyles = () => ({
-  container: css`
+  article: css`
     max-width: 1200px;
     padding: 24px;
     width: 100%;
+    max-height: 100vh;
+    overflow: auto;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   `,
   header: css`
-    height: 80px;
+    padding: 20px 0;
     display: flex;
-    align-items: center;
-    gap: 24px;
+    flex-direction: column;
+    gap: 16px;
     
     h1 {
       margin: 0;
       color: #333333;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
+      font-weight: normal;
     }
+  `,
+  photographer: css`
+    white-space: nowrap;
   `,
   backLink: css`
     display: flex;
@@ -90,6 +123,26 @@ const getStyles = () => ({
     white-space: nowrap;
     padding: 3px 12px;
     transition: color 0.2s ease;
+    position: relative;
+    
+    &:focus-visible {
+      outline: 3px solid #0066cc;
+      outline-offset: 2px;
+      border-radius: 10px;
+    }
+
+    &:focus:not(:focus-visible) {
+      outline: none;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0);
+      transition: background-color 0.2s ease;
+      border-radius: 10px;
+    }
     
     &:hover {
       color: #000000;
@@ -126,5 +179,49 @@ const getStyles = () => ({
     left: 0;
     bottom: 0;
     right: 0;
-  `
+  `,
+  author: css`
+    color: #333333;
+    font-size: 20px;
+    font-weight: 600;
+    display: inline-flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 6px;
+    position: relative;
+    
+    svg {
+      height: 18px;
+      width: 18px;
+    }
+
+    &:focus-visible {
+      outline: 3px solid #0066cc;
+      outline-offset: 2px;
+      border-radius: 10px;
+    }
+
+    &:focus:not(:focus-visible) {
+      outline: none;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0);
+      transition: background-color 0.2s ease;
+      border-radius: 10px;
+    }
+    
+    &:hover {
+      text-decoration: none;
+    }
+  `,
+  metadata: css`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+  `,
 });
