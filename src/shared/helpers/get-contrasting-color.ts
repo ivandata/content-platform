@@ -4,6 +4,9 @@
  * @returns '#ffffff' for white or '#000000' for black text
  */
 export const getContrastingColor = (backgroundColor: string): string => {
+  console.log(backgroundColor)
+  if (!backgroundColor) return ''
+
   // Convert hex to RGB if needed
   let r: number, g: number, b: number;
 

@@ -49,7 +49,7 @@ describe('getContrastingColor', () => {
   describe('edge cases', () => {
     it('returns black for invalid color formats', () => {
       expect(getContrastingColor('invalid')).toBe('#000000');
-      expect(getContrastingColor('')).toBe('#000000');
+      expect(getContrastingColor('')).toBe('');
     });
 
     it('handles border cases for luminance threshold', () => {
