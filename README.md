@@ -1,6 +1,9 @@
 # Content Platform
-
 A modern React application for displaying and managing photo content with advanced features like masonry grid layout, infinite scrolling, and responsive image loading.
+
+<img src="docs/content-platform-demo.gif" width="700"  alt="Masonry grid layout photo grid"/>
+
+#### [Live preview](https://masonry-photo-grid-layout.netlify.app/)
 
 ## 🛠 Tech Stack
 
