@@ -9,7 +9,6 @@ function PhotoDetailsPage () {
   const { photoId } = useParams<{ photoId: string }>();
   const { data: photoDetails, isPending } = usePhotoDetails(photoId!);
 
-  const styles = useMemo(() => getStyles(), []);
   const photo = useMemo(() => {
     return isPending ? generateEmptyPhotoResource() : photoDetails
   }, [photoDetails, isPending])
@@ -21,7 +20,7 @@ function PhotoDetailsPage () {
   </div>;
 }
 
-const getStyles = () => ({
+const styles = {
   container: css`
     width: 100%;
     max-height: 100%;
@@ -29,7 +28,7 @@ const getStyles = () => ({
     justify-content: center;
     align-items: center;
   `,
-});
+};
 
 
 export default PhotoDetailsPage

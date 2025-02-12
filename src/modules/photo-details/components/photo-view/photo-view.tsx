@@ -2,7 +2,6 @@ import type { PhotoResource } from 'shared/api';
 
 import { css } from '@emotion/react';
 import { motion } from 'motion/react';
-import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import ArrowBackLink from 'shared/components/icons/arrow-back-outline.svg?react'
 import TargetBlankIcon  from 'shared/components/icons/open-outline.svg?react'
@@ -16,7 +15,6 @@ export interface PhotoDetailProps {
 
 export const PhotoView = ({ photo, isLoading = false }: PhotoDetailProps) => {
   const canGoBack = window.history.length > 1
-  const styles = useMemo(() => getStyles(), []);
 
   return (
     <motion.article
@@ -82,7 +80,7 @@ export const PhotoView = ({ photo, isLoading = false }: PhotoDetailProps) => {
   );
 };
 
-const getStyles = () => ({
+const styles = {
   article: css`
     max-width: 1200px;
     padding: 24px;
@@ -229,4 +227,4 @@ const getStyles = () => ({
     align-items: center;
     font-weight: 600;
   `,
-});
+};

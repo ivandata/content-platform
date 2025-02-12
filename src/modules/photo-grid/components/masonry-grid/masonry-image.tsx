@@ -1,7 +1,7 @@
 import type { PhotoResource } from 'shared/api'
 
 import { css } from '@emotion/react';
-import { memo, useMemo } from 'react';
+import { memo } from 'react';
 import { ImageSkeleton } from 'shared/components/skeleton';
 import { useImageLoader } from 'shared/hooks';
 
@@ -27,7 +27,6 @@ const MasonryImage = memo(({
   const calculatedAspectRatio = aspectRatio ??
     (photo.width && photo.height ? (photo.height / photo.width) : 1);
   const src = isError ? photo.src.tiny : photo.src.large;
-  const styles = useMemo(() => getStyles(), []);
 
   return (
     <div
@@ -52,7 +51,7 @@ const MasonryImage = memo(({
   );
 });
 
-const getStyles = () => ({
+const styles = {
   container: css`
     position: relative;
     width: 100%;
@@ -71,6 +70,6 @@ const getStyles = () => ({
     color: #333333;
     font-size: 14px;
   `
-});
+};
 
 export { MasonryImage };

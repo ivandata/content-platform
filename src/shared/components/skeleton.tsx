@@ -8,8 +8,6 @@ interface ImageSkeletonProps {
 }
 
 const ImageSkeleton = ({ aspectRatio = 1 }: ImageSkeletonProps) => {
-  const styles = getStyles();
-
   return (
     <div
       aria-hidden="true"
@@ -27,7 +25,7 @@ const ImageSkeleton = ({ aspectRatio = 1 }: ImageSkeletonProps) => {
   );
 };
 
-const getStyles = () => ({
+const styles = {
   container: css`
     position: absolute;
     top: 0;
@@ -50,7 +48,7 @@ const getStyles = () => ({
       rgba(240, 240, 240, 0) 100%
     );
   `
-});
+};
 
 export type { ImageSkeletonProps };
 export { ImageSkeleton };

@@ -69,12 +69,14 @@ const MasonryGrid = ({
 
   const virtualItems = getVirtualItems();
   const totalSize = getTotalSize() - columnGap;
-  const styles = useMemo(() => getStyles(columnGap), [columnGap]);
+
+  const innerContainerStyles = useMemo(() => styles.innerContainer(columnGap), [columnGap])
+  const columnStyles = useMemo(() => styles.column(columnGap), [columnGap])
 
   return (
     <div aria-label="Photo gallery" css={styles.container} ref={parentRef} role="list">
       <div
-        css={styles.innerContainer}
+        css={innerContainerStyles}
         style={{
           width: `${totalSize}px`,
           transform: `translateX(${scrollOffset}px)`,
@@ -83,7 +85,7 @@ const MasonryGrid = ({
         {virtualItems.map((virtualColumn) => (
           <div
             aria-label={`Column ${virtualColumn.index + 1}`}
-            css={styles.column}
+            css={columnStyles}
             key={virtualColumn.index}
             role="group"
             style={{
@@ -101,21 +103,21 @@ const MasonryGrid = ({
   );
 };
 
-const getStyles = (columnGap: number) => ({
+const styles = {
   container: css`
     width: 100%;
     height: 100%;
     overflow: auto;
     position: relative;
   `,
-  innerContainer: css`
+  innerContainer: (columnGap: number) => css`
     position: relative;
     height: 100%;
     margin: 0 auto;
     gap: ${columnGap}px;
     display: flex;
   `,
-  column: css`
+  column: (columnGap: number) => css`
     padding: 0;
     position: absolute;
     top: 0;
@@ -174,6 +176,6 @@ const getStyles = (columnGap: number) => ({
     z-index: 100;
     opacity: 0;
   `
-});
+};
 
 export { MasonryGrid };

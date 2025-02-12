@@ -2,7 +2,7 @@ import type { PhotoResource } from 'shared/api';
 
 import { css } from '@emotion/react';
 import { motion } from 'motion/react';
-import { memo, useMemo } from 'react';
+import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import ForwardIcon from 'shared/components/icons/arrow-forward-outline.svg?react';
 import { getContrastingColor } from 'shared/helpers/get-contrasting-color';
@@ -14,8 +14,6 @@ interface MasonryItemProps {
 }
 
 export const MasonryItem = memo(({ photo }: MasonryItemProps) => {
-  const styles = useMemo(() => getStyles(), []);
-
   return (
     <motion.div
       animate={{ opacity: 1, scale: 1 }}
@@ -59,7 +57,7 @@ export const MasonryItem = memo(({ photo }: MasonryItemProps) => {
   );
 });
 
-const getStyles = () => ({
+const styles = {
   link: css`
     display: block;
     text-decoration: none;
@@ -118,4 +116,4 @@ const getStyles = () => ({
       height: 100%;
     }
   `
-});
+};

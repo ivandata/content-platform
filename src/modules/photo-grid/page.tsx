@@ -4,6 +4,8 @@ import { useInfiniteCuratedPhotos, generateSkeletonPhotos } from 'shared/api';
 
 import { MasonryGrid } from './components/masonry-grid';
 
+
+
 function PhotoGallery() {
   const {
     data,
@@ -30,10 +32,9 @@ function PhotoGallery() {
   }, [data, isPending]);
 
   const columnGap = 16
-  const styles = useMemo(() => getStyles(columnGap), [columnGap]);
 
   return (
-    <div css={styles.container}>
+    <div css={styles.container(columnGap)}>
       <MasonryGrid
         columnGap={columnGap}
         columnWidth={300}
@@ -51,8 +52,8 @@ function PhotoGallery() {
   );
 }
 
-const getStyles = (gap: number) => ({
-  container: css`
+const styles = {
+  container: (gap: number) => css`
     width: 100%;
     height: 100vh;
     overflow: auto;
@@ -69,7 +70,7 @@ const getStyles = (gap: number) => ({
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     color: #666;
   `,
-});
+};
 
 
 export default PhotoGallery

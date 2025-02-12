@@ -2,7 +2,7 @@ import type { PhotoResource } from 'shared/api'
 
 import { css } from '@emotion/react';
 import { motion } from 'motion/react';
-import { memo, useMemo } from 'react';
+import { memo } from 'react';
 import { ImageSkeleton } from 'shared/components/skeleton';
 import { useImageLoader } from 'shared/hooks';
 
@@ -35,7 +35,6 @@ const PhotoImage = memo(({
   ].filter(Boolean).join(', ');
 
   const finalSrc = isError ? (fallbackSrc || photo.src.small) : photo.src.medium;
-  const styles = useMemo(() => getStyles(), []);
 
   return (
     <div css={styles.container} style={{ height: isLoading ? '50vh' : '100%' }}>
@@ -75,7 +74,7 @@ const PhotoImage = memo(({
   );
 });
 
-const getStyles = () => ({
+const styles = {
   container: css`
     position: relative;
     width: 100%;
@@ -89,6 +88,6 @@ const getStyles = () => ({
   picture: css`
     display: flex;
   `,
-})
+};
 
 export { PhotoImage };
