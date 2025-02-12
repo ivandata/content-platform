@@ -3,7 +3,7 @@ import type { PhotoResource } from 'shared/api'
 import { css } from '@emotion/react';
 import { motion } from 'motion/react';
 import { memo, useMemo } from 'react';
-import { ImageSkeleton } from 'shared/components/image';
+import { ImageSkeleton } from 'shared/components/skeleton';
 import { useImageLoader } from 'shared/hooks';
 
 interface ImageProps {

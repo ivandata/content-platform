@@ -2,7 +2,7 @@ import type { PhotoResource } from 'shared/api'
 
 import { css } from '@emotion/react';
 import { memo, useMemo } from 'react';
-import { ImageSkeleton } from 'shared/components/image/skeleton';
+import { ImageSkeleton } from 'shared/components/skeleton';
 import { useImageLoader } from 'shared/hooks';
 
 interface GridImageProps {
