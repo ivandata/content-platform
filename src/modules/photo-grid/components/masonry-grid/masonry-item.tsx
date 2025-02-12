@@ -66,7 +66,7 @@ const getStyles = () => ({
     position: relative;
 
     &:focus-visible {
-      outline: 3px solid #0066cc;
+      outline: 3px solid rgb(13, 81, 255);
       outline-offset: 2px;
       border-radius: 10px;
     }

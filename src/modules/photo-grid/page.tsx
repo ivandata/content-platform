@@ -8,9 +8,7 @@ function PhotoGallery() {
   const {
     data,
     isSuccess,
-    error,
     isPending,
-    isError,
     isFetching,
     isFetchingNextPage,
     fetchNextPage,
@@ -36,11 +34,6 @@ function PhotoGallery() {
 
   return (
     <div css={styles.container}>
-      {isError && <div css={styles.error}>
-        Error:
-        {error.message}
-      </div>}
-
       <MasonryGrid
         columnGap={columnGap}
         columnWidth={300}
