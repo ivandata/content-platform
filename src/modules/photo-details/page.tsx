@@ -7,7 +7,7 @@ import { PhotoView } from './components/photo-view';
 
 function PhotoDetailsPage () {
   const { photoId } = useParams<{ photoId: string }>();
-  const { data: photoDetails, error, isPending, isError, isSuccess } = usePhotoDetails(photoId!);
+  const { data: photoDetails, isPending } = usePhotoDetails(photoId!);
 
   const styles = useMemo(() => getStyles(), []);
   const photo = useMemo(() => {
@@ -17,20 +17,14 @@ function PhotoDetailsPage () {
   if (!photo) return null
 
   return <div css={styles.container}>
-    {isError && <div css={styles.error}>
-      Error:
-      {error.message}
-    </div>}
-
-    {isSuccess && <PhotoView photo={photo} />}
+    <PhotoView isLoading={isPending} photo={photo} />
   </div>;
 }
 
 const getStyles = () => ({
   container: css`
     width: 100%;
-    height: 100vh;
-    overflow: hidden;
+    max-height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;

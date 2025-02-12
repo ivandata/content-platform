@@ -11,9 +11,10 @@ import { PhotoImage } from './photo-image';
 
 export interface PhotoDetailProps {
   photo: PhotoResource;
+  isLoading?: boolean;
 }
 
-export const PhotoView = ({ photo }: PhotoDetailProps) => {
+export const PhotoView = ({ photo, isLoading = false }: PhotoDetailProps) => {
   const canGoBack = window.history.length > 1
   const styles = useMemo(() => getStyles(), []);
 
@@ -35,7 +36,7 @@ export const PhotoView = ({ photo }: PhotoDetailProps) => {
           </Link>
         }
 
-        <h1>
+        {isLoading ? <div css={styles.skeleton} data-testid="photo-view-skeleton" /> : <h1>
           <i>{photo.alt}</i>
           {' '}
 
@@ -53,7 +54,7 @@ export const PhotoView = ({ photo }: PhotoDetailProps) => {
               <TargetBlankIcon />
             </a>
           </span>
-        </h1>
+        </h1>}
       </header>
 
       <figure css={styles.figure}>
@@ -86,12 +87,14 @@ const getStyles = () => ({
     max-width: 1200px;
     padding: 24px;
     width: 100%;
-    max-height: 100vh;
     overflow: auto;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    height: auto;
+  `,
+  skeleton: css`
+    max-width: 500px;
+    height: 36px;
+    background: #f0f0f0;
+    border-radius: 4px;
   `,
   header: css`
     padding: 20px 0;
@@ -99,10 +102,12 @@ const getStyles = () => ({
     flex-direction: column;
     gap: 16px;
     
+    
     h1 {
       margin: 0;
       color: #333333;
       font-weight: normal;
+      font-size: 20px;
     }
   `,
   photographer: css`
@@ -115,7 +120,7 @@ const getStyles = () => ({
     text-decoration: none;
     align-items: center;
     border-radius: 6px;
-    border: 1px solid #575757;
+    border: 2px solid #575757;
     height: 30px;
     width: 160px;
     justify-content: center;
@@ -126,7 +131,7 @@ const getStyles = () => ({
     position: relative;
     
     &:focus-visible {
-      outline: 3px solid #0066cc;
+      outline: 3px solid rgb(13, 81, 255);
       outline-offset: 2px;
       border-radius: 10px;
     }

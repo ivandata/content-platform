@@ -22,12 +22,24 @@ describe('PhotoView Component', () => {
     default: () => <svg data-testid="arrow-back-icon" />
   }));
 
-  const renderComponent = () =>
+  const renderComponent = (isLoading = false) =>
     render(
       <MemoryRouter>
-        <PhotoView photo={mockedPhoto} />
+        <PhotoView isLoading={isLoading} photo={mockedPhoto} />
       </MemoryRouter>
     );
+
+  it('renders heading with skeleton while loading', () => {
+    renderComponent(true);
+
+    expect(screen.getByTestId('photo-view-skeleton')).toBeTruthy();
+  });
+
+  it('removes skeleton after image loads', async () => {
+    renderComponent()
+
+    expect(screen.getByTestId('photo-view-skeleton')).toBeFalsy();
+  });
 
   it('renders a photo component with image', () => {
     renderComponent();
