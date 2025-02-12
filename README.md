@@ -50,7 +50,7 @@ src/
 
 ## 🌟 Key Features
 
-- Modular architecture with feature-based organization
+- [Modular architecture](https://imalov.dev/articles/react-modular-approach-structure/) with feature-based organization
 - Responsive masonry grid layout with virtualization
 - Advanced image loading with fallbacks and skeletons
 - Infinite scrolling implementation
