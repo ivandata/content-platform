@@ -38,7 +38,7 @@ describe('PhotoView Component', () => {
   it('removes skeleton after image loads', async () => {
     renderComponent()
 
-    expect(screen.getByTestId('photo-view-skeleton')).toBeFalsy();
+    expect(screen.queryByTestId('photo-view-skeleton')).toBeNull();
   });
 
   it('renders a photo component with image', () => {
