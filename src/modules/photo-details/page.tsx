@@ -29,22 +29,6 @@ const getStyles = () => ({
     justify-content: center;
     align-items: center;
   `,
-  loading: css`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    font-size: 1.2rem;
-    color: #666;
-  `,
-  error: css`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    color: #dc3545;
-    font-size: 1.2rem;
-  `,
 });
 
 

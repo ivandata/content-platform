@@ -59,22 +59,6 @@ const getStyles = (gap: number) => ({
     -webkit-overflow-scrolling: touch;
     padding: ${gap}px;
   `,
-  loading: css`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    font-size: 1.2rem;
-    color: #666;
-  `,
-  error: css`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    color: #dc3545;
-    font-size: 1.2rem;
-  `,
   backgroundUpdate: css`
     position: fixed;
     bottom: 20px;
