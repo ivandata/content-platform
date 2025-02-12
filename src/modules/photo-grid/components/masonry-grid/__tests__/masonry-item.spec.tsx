@@ -5,7 +5,6 @@ import { describe, it, expect, vi } from 'vitest';
 
 import { MasonryItem } from '../masonry-item';
 
-// Mock dependencies
 vi.mock('motion/react', () => ({
   motion: {
     div: ({ children, ...props }: any) => <div {...props}>{children}</div>,

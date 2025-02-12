@@ -19,7 +19,7 @@ export const MasonryItem = memo(({ photo }: MasonryItemProps) => {
   return (
     <motion.div
       animate={{ opacity: 1, scale: 1 }}
-      initial={{ opacity: 0, scale: 0 }}
+      initial={{ opacity: 0, scale: .95 }}
       transition={{
         duration: 0.2,
         scale: { type: 'spring', visualDuration: 0.2, bounce: 0.3 },
