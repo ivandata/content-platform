@@ -27,10 +27,43 @@ const generatePhotoResource = (): PhotoResource => ({
   alt: faker.lorem.sentence(),
 })
 
+const generateEmptyPhotoResource = (overrides = {}): PhotoResource => ({
+  id: '',
+  width: 400,
+  height: 300,
+  url: '',
+  photographer: '',
+  photographer_url: '',
+  photographer_id: '',
+  avg_color: '#EEEEEE',
+  src: {
+    original: '',
+    large: '',
+    large2x: '',
+    medium: '',
+    small: '',
+    portrait: '',
+    landscape: '',
+    tiny: '',
+  },
+  alt: '',
+  ...overrides
+});
+
+const generateSkeletonPhotos = (count: number = 1): PhotoResource[] => {
+  return Array(count).fill(null).map((_, index) =>
+    generateEmptyPhotoResource({
+      id: `skeleton-${index}`,
+      width: faker.number.int({ min: 1000, max: 3000 }),
+      height: faker.number.int({ min: 1000, max: 3000 }),
+    })
+  );
+};
+
 /**
  * Generates a list of fake photos
  */
 const generatePhotoList = (count = 10): PhotoResource[] =>
   Array.from({ length: count }, generatePhotoResource)
 
-export { generatePhotoResource, generatePhotoList }
+export { generatePhotoResource, generatePhotoList, generateSkeletonPhotos, generateEmptyPhotoResource }
