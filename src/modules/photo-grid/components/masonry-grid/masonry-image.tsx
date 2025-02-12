@@ -1,9 +1,9 @@
 import type { PhotoResource } from 'shared/api'
 
 import { css } from '@emotion/react';
-import { motion } from 'motion/react';
-import { useState, memo, useCallback, useMemo } from 'react';
+import { memo, useMemo } from 'react';
 import { ImageSkeleton } from 'shared/components/image/skeleton';
+import { useImageLoader } from 'shared/hooks';
 
 interface GridImageProps {
   photo: PhotoResource;
@@ -22,19 +22,7 @@ const MasonryImage = memo(({
   onLoad,
   onError,
 }: GridImageProps) => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
-
-  const handleLoad = useCallback(() => {
-    setIsLoading(false);
-    onLoad?.();
-  }, [onLoad]);
-
-  const handleError = useCallback(() => {
-    setIsError(true);
-    setIsLoading(false);
-    onError?.();
-  }, [onError]);
+  const { isLoading, isError, handleLoad, handleError } = useImageLoader({ onLoad, onError });
 
   const calculatedAspectRatio = aspectRatio ??
     (photo.width && photo.height ? (photo.height / photo.width) : 1);
@@ -50,27 +38,20 @@ const MasonryImage = memo(({
         <ImageSkeleton aspectRatio={calculatedAspectRatio} />
       )}
 
-      {photo.url && <motion.img
+      {photo.url && <img
         alt={photo.alt}
-        animate={{ opacity: 1 }}
         css={styles.image}
         height={photo.height}
-        initial={{ opacity: 0 }}
         loading={priority ? 'eager' : loading ?? 'lazy'}
         onError={handleError}
         onLoad={handleLoad}
         src={src}
-        transition={{
-          duration: 0.4,
-          scale: { type: 'spring', visualDuration: 0.3, bounce: 0.5 },
-        }}
         width={photo.width}
       />}
     </div>
   );
 });
 
-// Use the same styles as the original Image component
 const getStyles = () => ({
   container: css`
     position: relative;
