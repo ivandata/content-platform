@@ -1,50 +1,128 @@
-# React + TypeScript + Vite
+# Content Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern React application for displaying and managing photo content with advanced features like masonry grid layout, infinite scrolling, and responsive image loading.
 
-Currently, two official plugins are available:
+## 🛠 Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Package Manager:** pnpm
+- **Framework:** React 19 with TypeScript
+- **Build Tool:** Vite 6
+- **Styling:** [Emotion](https://emotion.sh/docs/introduction)
+- **Data Fetching:**[TanStack Query (React Query)](https://tanstack.com/query/latest)
+- **Virtualization:** [TanStack Virtual](https://tanstack.com/virtual/latest)
+- **Routing:** [React Router DOM](https://reactrouter.com/)
+- **Animation:** [Motion](https://motion.dev/)
+- **Testing:**
+    - [Vitest](https://vitest.dev/)
+    - [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
+    - [Happy DOM](https://github.com/capricorn86/happy-dom)
+- **Development Tools:**
+    - [ESLint 9](https://eslint.org/) flat config with [Stylistic](https://eslint.style/)
+    - TypeScript 5.7
+    - [Faker.js](https://fakerjs.dev/) for mock data generation
 
-## Expanding the ESLint configuration
+## 📁 Project Structure
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```
+src/
+├── modules/                   # Feature-based modules
+│   ├── photo-grid/           # Photo grid feature
+│   │   ├── components/       # Grid-specific components
+│   │   │   ├── masonry-grid/
+│   │   │   └── ...
+│   ├── photo-details/        # Photo details feature
+│   │   ├── components/       # Detail view components
+│   │   └── ...
+│   └── ...
+├── shared/                   # Shared resources
+│   ├── api/                  # API integration
+│   ├── components/           # Common components
+│   ├── helpers/             # Utility functions
+│   └── ...
+├── assets/                  # Static assets
+├── App.tsx                  # Root component
+├── main.tsx                 # Entry point
+└── vite-env.d.ts           # Vite type declarations
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## 🌟 Key Features
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+- Modular architecture with feature-based organization
+- Responsive masonry grid layout with virtualization
+- Advanced image loading with fallbacks and skeletons
+- Infinite scrolling implementation
+- Type-safe API integration
+- Comprehensive testing setup
+- Modern animation integration
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+## 🚀 Getting Started
+
+1. **Install Dependencies**
+   ```bash
+   pnpm install
+   ```
+
+2. **Development**
+   ```bash
+   pnpm dev
+   ```
+
+3. **Build**
+   ```bash
+   pnpm build
+   ```
+
+4. **Testing**
+   ```bash
+   # Run tests
+   pnpm test
+
+   # Generate coverage report
+   pnpm coverage
+   ```
+
+5. **Linting**
+   ```bash
+   pnpm lint
+   ```
+
+## 📦 Available Scripts
+
+- `pnpm dev`: Start development server
+- `pnpm build`: Build for production
+- `pnpm preview`: Preview production build
+- `pnpm test`: Run tests
+- `pnpm coverage`: Generate test coverage report
+- `pnpm lint`: Run ESLint
+
+## 🧩 Project Architecture
+
+The project follows a [modular architecture](https://imalov.dev/articles/react-modular-approach-structure/) with these key principles:
+
+- **Feature-based Organization**: Each major feature is contained in its own module
+- **Shared Resources**: Common utilities and components are centralized
+- **Type Safety**: Comprehensive TypeScript implementation
+- **Component Isolation**: Each component has its own types, tests, and styles
+- **API Abstraction**: Centralized API handling with React Query
+
+## 📋 Development Guidelines
+
+- Use TypeScript for all new code
+- Follow the modular structure for new features
+- Write tests for new components and utilities
+- Use Emotion for styling
+- Implement proper error boundaries and loading states
+- Follow ESLint rules and maintain code quality
+
+## 🔧 Configuration
+
+- ESLint configuration for code quality
+- Vite configuration for optimal development experience
+- TypeScript configuration for type safety
+- Testing configuration with Vitest and React Testing Library
+
+## 🧪 Testing Strategy
+
+- Unit tests for utilities and hooks
+- Component tests with React Testing Library
+- Mock data generation with Faker.js
